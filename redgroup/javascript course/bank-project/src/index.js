@@ -1,1 +1,3 @@
-console.log('hey')
+const { Router } = require("./core/router/router")
+
+new Router()
