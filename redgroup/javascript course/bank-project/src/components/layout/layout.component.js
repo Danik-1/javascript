@@ -1,3 +1,9 @@
+import renderService from "@/core/services/render.service"
+import styles from './header/'
+import { template } from "babel-core"
+import { $R } from "@/core/rquery/rquery.lib"
+import { Header } from "./header/header.component"
+
 export class Layout {
     constructor({router, children}) {
         this.router = router
@@ -5,20 +11,9 @@ export class Layout {
     }
 
     render() {
-        const headerHTML = `
-        <header>
-            Header
-            <nav>
-                <a href="/">Home</a>
-                <a href="/auth">Auth</a>
-            </nav>
-        </header>`
-
-        return `
-            ${headerHTML}
-            <main>
-                ${this.children}
-            </main>
-        `
+        this.element = renderService.htmlToElement(template, [], styles)
+        const mainElement = $R(this.element).find('main')
+        mainElement.before(new Header().render())
+        return this.element.outerHTML
     }
 }
